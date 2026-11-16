@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a train ticket</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      background-color: #f5f5f5;
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 0;
+    }
+
+    .subtitle {
+      color: gray;
+      margin-top: 4px;
+    }
+
+    .steps {
+      margin-bottom: 20px;
+    }
+
+    .step {
+      display: inline-block;
+      margin-right: 20px;
+      color: gray;
+    }
+
+    .step.active {
+      color: blue;
+      font-weight: bold;
+    }
+
+  
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .left {
+      width: 55%;
+    }
+
+    .right {
+      width: 45%;
+    }
+
+
+    .box {
+      background-color: white;
+      border: 1px solid #dddddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .box h2 {
+      font-size: 13px;
+      background-color: black;
+      color: white;
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: 0;
+    }
+
+    
+    .row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      width: 50%;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 13px;
+    }
+
+    .normal-label {
+      font-weight: normal;
+      margin-right: 15px;
+    }
+
+    /* Blue checkout box */
+    .checkout {
+      background-color: #2a2ad4;
+      color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .checkout h2 {
+      font-size: 13px;
+      background-color: black;
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-top: 0;
+    }
+
+    .cities {
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .price-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #8080e6;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    #total {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #resetButton {
+      background-color: #2a2ad4;
+      color: white;
+      border: 2px solid white;
+    }
+
+    #continueButton {
+      background-color: white;
+      color: #2a2ad4;
+      border: 2px solid white;
+    }
+
+    #continueButton:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+   
+    .photo {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left,
+      .right {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Book a train ticket</h1>
+  <p class="subtitle">Vilnius → Kaunas</p>
+
+  <div class="steps">
+    <span class="step">✓ Trip</span>
+    <span class="step active">2. Passenger &amp; extras</span>
+    <span class="step">3. Confirm</span>
+  </div>
+
+  <div class="container">
+
+    <!-- LEFT SIDE: the form -->
+    <div class="left">
+
+      <div class="box">
+        <h2>1 · Trip</h2>
+        <p>
+          <label class="normal-label">
+            <input type="radio" name="tripType" id="oneWay" onchange="updatePrice()"> One way
+          </label>
+          <label class="normal-label">
+            <input type="radio" name="tripType" id="returnTrip" onchange="updatePrice()" checked> Return
+          </label>
+        </p>
+
+        <div class="row">
+          <div class="field">
+            <label for="from">From</label>
+            <input type="text" id="from" value="Vilnius" oninput="updatePrice()">
+          </div>
+          <div class="field">
+            <label for="to">To</label>
+            <input type="text" id="to" value="Kaunas" oninput="updatePrice()">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="departure">Departure</label>
+            <input type="date" id="departure" value="2026-11-20" onchange="updatePrice()">
+          </div>
+          <div class="field">
+            <label for="time">Time</label>
+            <input type="time" id="time" value="08:15" onchange="updatePrice()">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="returnDate">Return</label>
+            <input type="date" id="returnDate" value="2026-11-22">
+          </div>
+          <div class="field">
+            <label for="passengers">Passengers</label>
+            <input type="number" id="passengers" value="2" min="1" max="9" oninput="updatePrice()">
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>2 · Passenger</h2>
+
+        <div class="row">
+          <div class="field">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" value="Mia">
+          </div>
+          <div class="field">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" value="Petraitė">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="birthDate">Date of birth</label>
+            <input type="date" id="birthDate" value="2005-04-12">
+          </div>
+          <div class="field">
+            <label for="discount">Discount</label>
+            <select id="discount" onchange="updatePrice()">
+              <option value="none">None</option>
+              <option value="student" selected>Student (−50 %)</option>
+              <option value="senior">Senior (−30 %)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>3 · Extras</h2>
+        <p>
+          <label class="normal-label">
+            <input type="checkbox" id="bike" onchange="updatePrice()" checked> Bike +3 €
+          </label>
+          <label class="normal-label">
+            <input type="checkbox" id="pet" onchange="updatePrice()"> Pet +2 €
+          </label>
+          <label class="normal-label">
+            <input type="checkbox" id="quiet"> Quiet zone
+          </label>
+        </p>
+
+        <label for="note">Note for the conductor (max 120 characters)</label>
+        <textarea id="note" rows="3" maxlength="120" placeholder="Travelling with a wheelchair, need help boarding"></textarea>
+      </div>
+
+      <div class="box">
+        <h2>4 · Contact</h2>
+
+        <div class="row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="mia@stud.vilniustech.lt">
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" value="+37061234567">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE: checkout -->
+    <div class="right">
+
+      <div class="checkout">
+        <h2>5 · Checkout</h2>
+
+        <div class="cities">
+          <span id="fromText">Vilnius</span>
+          <span>→</span>
+          <span id="toText">Kaunas</span>
+        </div>
+        <div class="times">
+          <span id="departureText">2026-11-20 · 08:15</span>
+          <span>1 h 05 min</span>
+        </div>
+
+        <div class="price-line">
+          <span>Adult · Economy</span>
+          <span>7,80 €</span>
+        </div>
+        <div class="price-line">
+          <span>Discount</span>
+          <span id="discountPrice">0,00 €</span>
+        </div>
+        <div class="price-line">
+          <span>Bike</span>
+          <span id="bikePrice">0,00 €</span>
+        </div>
+        <div class="price-line">
+          <span>Pet</span>
+          <span id="petPrice">0,00 €</span>
+        </div>
+        <div class="price-line">
+          <span>Trips</span>
+          <span id="tripsText">× 1</span>
+        </div>
+        <div class="price-line">
+          <span>Passengers</span>
+          <span id="passengersText">× 1</span>
+        </div>
+
+        <div class="total-line">
+          <span>Total</span>
+          <span id="total">0,00 €</span>
+        </div>
+
+        <label class="normal-label">
+          <input type="checkbox" id="terms" onchange="checkTerms()" checked> I agree to the terms
+        </label>
+        <br>
+
+        <button id="resetButton" onclick="resetForm()">Reset</button>
+        <button id="continueButton" onclick="confirmBooking()">Continue</button>
+      </div>
+
+      <img class="photo" src="train.jpg" alt="Photo of a train">
+
+    </div>
+
+  </div>
+
+  <script>
+
+    var ticketPrice = 7.80;
+    var bikeCost = 3;
+    var petCost = 2;
+
+
+    function formatPrice(number) {
+      var text = number.toFixed(2);
+      text = text.replace(".", ",");
+      return text + " €";
+    }
+    function updatePrice() {
+     
+      var discountType = document.getElementById("discount").value;
+      var discount = 0;
+
+      if (discountType == "student") {
+        discount = ticketPrice * 0.5;
+      }
+      if (discountType == "senior") {
+        discount = ticketPrice * 0.3;
+      }
+
+      var bike = 0;
+      var pet = 0;
+
+      if (document.getElementById("bike").checked) {
+        bike = bikeCost;
+      }
+      if (document.getElementById("pet").checked) {
+        pet = petCost;
+      }
+
+
+      var trips = 1;
+
+      if (document.getElementById("returnTrip").checked) {
+        trips = 2;
+      }
+
+
+      var passengers = Number(document.getElementById("passengers").value);
+
+      if (passengers < 1) {
+        passengers = 1;
+      }
+
+
+      var priceForOne = ticketPrice - discount + bike + pet;
+      var total = priceForOne * trips * passengers;
+
+
+      document.getElementById("discountPrice").innerHTML = "−" + formatPrice(discount);
+      document.getElementById("bikePrice").innerHTML = formatPrice(bike);
+      document.getElementById("petPrice").innerHTML = formatPrice(pet);
+      document.getElementById("tripsText").innerHTML = "× " + trips;
+      document.getElementById("passengersText").innerHTML = "× " + passengers;
+      document.getElementById("total").innerHTML = formatPrice(total);
+      document.getElementById("continueButton").innerHTML = "Continue · " + formatPrice(total);
+
+  
+      var date = document.getElementById("departure").value;
+      var time = document.getElementById("time").value;
+
+      document.getElementById("fromText").innerHTML = document.getElementById("from").value;
+      document.getElementById("toText").innerHTML = document.getElementById("to").value;
+      document.getElementById("departureText").innerHTML = date + " · " + time;
+    }
+
+
+    function checkTerms() {
+      var agreed = document.getElementById("terms").checked;
+
+      if (agreed) {
+        document.getElementById("continueButton").disabled = false;
+      } else {
+        document.getElementById("continueButton").disabled = true;
+      }
+    }
+
+  
+    function confirmBooking() {
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var email = document.getElementById("email").value;
+      var phone = document.getElementById("phone").value;
+
+      if (firstName == "" || lastName == "") {
+        alert("Please enter your first and last name.");
+        return;
+      }
+
+      if (email == "" || email.indexOf("@") == -1) {
+        alert("Please enter a correct email.");
+        return;
+      }
+
+      if (phone == "") {
+        alert("Please enter your phone number.");
+        return;
+      }
+
+      var total = document.getElementById("total").innerHTML;
+      alert("Thank you, " + firstName + "! Your booking is confirmed. Total: " + total);
+    }
+
+
+    function resetForm() {
+      location.reload();
+    }
+
+    
+    updatePrice();
+  </script>
+
+</body>
+</html>
