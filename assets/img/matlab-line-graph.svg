@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <rect width="900" height="560" fill="#fff"/>
+  <rect x="90" y="50" width="740" height="430" fill="#fafafa" stroke="#333"/>
+  <g stroke="#ddd" stroke-width="1">
+    <path d="M90 136H830M90 222H830M90 308H830M90 394H830"/>
+    <path d="M238 50V480M386 50V480M534 50V480M682 50V480"/>
+  </g>
+  <g stroke="#333" fill="none" stroke-width="2">
+    <path d="M90 480V50M90 480H830"/>
+  </g>
+  <polyline fill="none" stroke="#0d6efd" stroke-width="5"
+    points="110,430 180,390 250,350 320,300 390,260 460,210 530,170 600,120 670,145 740,95 810,70"/>
+  <g fill="#333" font-family="Arial" font-size="18">
+    <text x="60" y="485">0</text><text x="52" y="395">1</text><text x="52" y="309">2</text>
+    <text x="52" y="223">3</text><text x="52" y="137">4</text><text x="52" y="70">5</text>
+    <text x="105" y="505">0</text><text x="245" y="505">2</text><text x="385" y="505">4</text>
+    <text x="525" y="505">6</text><text x="665" y="505">8</text><text x="805" y="505">10</text>
+    <text x="420" y="540" font-weight="bold">Time (s)</text>
+    <text transform="translate(24 300) rotate(-90)" font-weight="bold">Signal amplitude</text>
+  </g>
+  <text x="330" y="28" fill="#222" font-family="Arial" font-size="24" font-weight="bold">Sinusoidal Signal Response</text>
+</svg>
